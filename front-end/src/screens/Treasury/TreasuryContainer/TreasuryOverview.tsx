@@ -9,14 +9,12 @@ import BN from 'bn.js';
 import React, { useContext, useEffect, useState } from 'react';
 import { Grid, Icon } from 'semantic-ui-react';
 import { ApiContext } from 'src/context/ApiContext';
-import { REACT_APP_SUBSCAN_API_KEY } from 'src/global/apiKeys';
-import { chainProperties } from 'src/global/networkConstants';
 import { useBlockTime } from 'src/hooks';
 import Card from 'src/ui-components/Card';
 import HelperTooltip from 'src/ui-components/HelperTooltip';
 import blockToTime from 'src/util/blockToTime';
+import fetchTokenToUSDPrice from 'src/util/fetchTokenToUSDPrice';
 import formatBnBalance from 'src/util/formatBnBalance';
-import getNetwork from 'src/util/getNetwork';
 
 import Loader from '../../../ui-components/Loader';
 
@@ -28,8 +26,6 @@ interface Result {
 	spendPeriod: BN;
 	treasuryAccount: Uint8Array;
 }
-
-const NETWORK = getNetwork();
 
 const TreasuryOverview = () => {
 	const { api, apiReady } = useContext(ApiContext);
@@ -108,27 +104,6 @@ const TreasuryOverview = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [api, apiReady, treasuryBalance, currentBlock]);
 
-	function formatUSDWithUnits (usd:String) {
-
-		// Nine Zeroes for Billions
-		const formattedUSD = Math.abs(Number(usd)) >= 1.0e+9
-
-			? (Math.abs(Number(usd)) / 1.0e+9).toFixed(2) + 'B'
-		// Six Zeroes for Millions
-			: Math.abs(Number(usd)) >= 1.0e+6
-
-				? (Math.abs(Number(usd)) / 1.0e+6).toFixed(2) + 'M'
-			// Three Zeroes for Thousands
-				: Math.abs(Number(usd)) >= 1.0e+3
-
-					? (Math.abs(Number(usd)) / 1.0e+3).toFixed(2) + 'K'
-
-					: Math.abs(Number(usd));
-
-		return formattedUSD.toString();
-
-	}
-
 	// fetch available token to USD price whenever available token changes
 	useEffect(() => {
 		// replace spaces returned in string by format function
@@ -136,35 +111,16 @@ const TreasuryOverview = () => {
 			resultValue.toString(),
 			{
 				numberAfterComma: 2,
+				withThousandDelimitor: false,
 				withUnit: false
 			}
 		).replaceAll(/\s/g,''));
 
-		async function fetchAvailableUSDCPrice(token: number) {
-			const response = await fetch(
-				`https://${NETWORK}.api.subscan.io/api/open/price_converter`,
-				{
-					body: JSON.stringify({
-						from: chainProperties[NETWORK].tokenSymbol,
-						quote: 'USD',
-						value: token
-					}),
-					headers: {
-						Accept: 'application/json',
-						'Content-Type': 'application/json',
-						'X-API-Key': REACT_APP_SUBSCAN_API_KEY || ''
-					},
-					method: 'POST'
-				}
-			);
-			const responseJSON = await response.json();
-			if (responseJSON['message'] == 'Success') {
-				const formattedUSD = formatUSDWithUnits(responseJSON['data']['output']);
+		fetchTokenToUSDPrice(token_available).then((formattedUSD) => {
+			if(formattedUSD){
 				setAvailableUSD(formattedUSD);
 			}
-		}
-
-		fetchAvailableUSDCPrice(token_available);
+		});
 	}, [resultValue]);
 
 	// fetch Next Burn token to USD price whenever Next Burn token changes
@@ -179,31 +135,11 @@ const TreasuryOverview = () => {
 			}
 		).replaceAll(/\s/g,''));
 
-		async function fetchNextBurnUSDCPrice(token: number) {
-			const response = await fetch(
-				`https://${NETWORK}.api.subscan.io/api/open/price_converter`,
-				{
-					body: JSON.stringify({
-						from: chainProperties[NETWORK].tokenSymbol,
-						quote: 'USD',
-						value: token
-					}),
-					headers: {
-						Accept: 'application/json',
-						'Content-Type': 'application/json',
-						'X-API-Key': REACT_APP_SUBSCAN_API_KEY || ''
-					},
-					method: 'POST'
-				}
-			);
-			const responseJSON = await response.json();
-			if (responseJSON['message'] == 'Success') {
-				const formattedUSD = formatUSDWithUnits(responseJSON['data']['output']);
+		fetchTokenToUSDPrice(token_burn).then((formattedUSD) => {
+			if(formattedUSD){
 				setNextBurnUSD(formattedUSD);
 			}
-		}
-
-		fetchNextBurnUSDCPrice(token_burn);
+		});
 	}, [resultBurn]);
 
 	return (

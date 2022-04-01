@@ -13,8 +13,10 @@ import { ApiContext } from 'src/context/ApiContext';
 import { REACT_APP_SUBSCAN_API_KEY } from 'src/global/apiKeys';
 import { chainProperties } from 'src/global/networkConstants';
 import { useBlockTime } from 'src/hooks';
+import useDebounce from 'src/hooks/useDebounce';
 import HelperTooltip from 'src/ui-components/HelperTooltip';
 import blockToDays from 'src/util/blockToDays';
+import fetchTokenToUSDPrice from 'src/util/fetchTokenToUSDPrice';
 import formatBnBalance from 'src/util/formatBnBalance';
 import getNetwork from 'src/util/getNetwork';
 import styled from 'styled-components';
@@ -111,33 +113,14 @@ const TreasuryOverviewCards = ({ className }: {className?: string}) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [api, apiReady, treasuryBalance, currentBlock]);
 
-	function formatUSDWithUnits (usd:string) {
-		// Nine Zeroes for Billions
-		const formattedUSD = Math.abs(Number(usd)) >= 1.0e+9
-
-			? (Math.abs(Number(usd)) / 1.0e+9).toFixed(2) + 'B'
-		// Six Zeroes for Millions
-			: Math.abs(Number(usd)) >= 1.0e+6
-
-				? (Math.abs(Number(usd)) / 1.0e+6).toFixed(2) + 'M'
-			// Three Zeroes for Thousands
-				: Math.abs(Number(usd)) >= 1.0e+3
-
-					? (Math.abs(Number(usd)) / 1.0e+3).toFixed(2) + 'K'
-
-					: Math.abs(Number(usd)).toFixed(2);
-
-		return formattedUSD;
-
-	}
+	const debouncedResultValue = useDebounce<any>(resultValue, 500);
+	const debouncedResultBurn = useDebounce<any>(resultBurn, 500);
 
 	// fetch available token to USD price whenever available token changes
 	useEffect(() => {
-		let cancel = false;
-
 		// replace spaces returned in string by format function
 		const token_available: number = parseFloat(formatBnBalance(
-			resultValue.toString(),
+			debouncedResultValue.toString(),
 			{
 				numberAfterComma: 2,
 				withThousandDelimitor: false,
@@ -145,42 +128,19 @@ const TreasuryOverviewCards = ({ className }: {className?: string}) => {
 			}
 		).replaceAll(/\s/g,''));
 
-		async function fetchAvailableUSDCPrice(token: number) {
-			if (cancel) return;
-			const response = await fetch(
-				`https://${NETWORK}.api.subscan.io/api/open/price_converter`,
-				{
-					body: JSON.stringify({
-						from: chainProperties[NETWORK].tokenSymbol,
-						quote: 'USD',
-						value: token
-					}),
-					headers: {
-						Accept: 'application/json',
-						'Content-Type': 'application/json',
-						'X-API-Key': REACT_APP_SUBSCAN_API_KEY || ''
-					},
-					method: 'POST'
-				}
-			);
-			const responseJSON = await response.json();
-			if (responseJSON['message'] == 'Success') {
-				const formattedUSD = formatUSDWithUnits(responseJSON['data']['output']);
+		fetchTokenToUSDPrice(token_available).then((formattedUSD) => {
+			if(formattedUSD){
 				setAvailableUSD(formattedUSD);
 			}
-		}
-		fetchAvailableUSDCPrice(token_available);
+		});
 
-		return () => { cancel = true; };
-	}, [resultValue]);
+	}, [debouncedResultValue]);
 
 	// fetch Next Burn token to USD price whenever Next Burn token changes
 	useEffect(() => {
-		let cancel = false;
-
 		// replace spaces returned in string by format function
 		const tokenBurn: number = parseFloat(formatBnBalance(
-			resultBurn.toString(),
+			debouncedResultBurn.toString(),
 			{
 				numberAfterComma: 2,
 				withThousandDelimitor: false,
@@ -188,35 +148,13 @@ const TreasuryOverviewCards = ({ className }: {className?: string}) => {
 			}
 		));
 
-		async function fetchNextBurnUSDCPrice(token: number) {
-			if (cancel) return;
-			const response = await fetch(
-				`https://${NETWORK}.api.subscan.io/api/open/price_converter`,
-				{
-					body: JSON.stringify({
-						from: chainProperties[NETWORK].tokenSymbol,
-						quote: 'USD',
-						value: token
-					}),
-					headers: {
-						Accept: 'application/json',
-						'Content-Type': 'application/json',
-						'X-API-Key': REACT_APP_SUBSCAN_API_KEY || ''
-					},
-					method: 'POST'
-				}
-			);
-			const responseJSON = await response.json();
-			if (responseJSON['message'] == 'Success') {
-				const formattedUSD = formatUSDWithUnits(responseJSON['data']['output']);
+		fetchTokenToUSDPrice(tokenBurn).then((formattedUSD) => {
+			if(formattedUSD){
 				setNextBurnUSD(formattedUSD);
 			}
-		}
+		});
 
-		fetchNextBurnUSDCPrice(tokenBurn);
-
-		return () => {cancel = true;};
-	}, [resultBurn]);
+	}, [debouncedResultBurn]);
 
 	// fetch current price of the token
 	useEffect(() => {
