@@ -10,6 +10,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Grid, Icon } from 'semantic-ui-react';
 import { ApiContext } from 'src/context/ApiContext';
 import { useBlockTime } from 'src/hooks';
+import useDebounce from 'src/hooks/useDebounce';
 import Card from 'src/ui-components/Card';
 import HelperTooltip from 'src/ui-components/HelperTooltip';
 import blockToTime from 'src/util/blockToTime';
@@ -104,11 +105,14 @@ const TreasuryOverview = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [api, apiReady, treasuryBalance, currentBlock]);
 
+	const debouncedResultValue = useDebounce<any>(resultValue, 500);
+	const debouncedResultBurn = useDebounce<any>(resultBurn, 500);
+
 	// fetch available token to USD price whenever available token changes
 	useEffect(() => {
 		// replace spaces returned in string by format function
 		const token_available: number = parseFloat(formatBnBalance(
-			resultValue.toString(),
+			debouncedResultValue.toString(),
 			{
 				numberAfterComma: 2,
 				withThousandDelimitor: false,
@@ -121,13 +125,13 @@ const TreasuryOverview = () => {
 				setAvailableUSD(formattedUSD);
 			}
 		});
-	}, [resultValue]);
+	}, [debouncedResultValue]);
 
 	// fetch Next Burn token to USD price whenever Next Burn token changes
 	useEffect(() => {
 		// replace spaces returned in string by format function
 		const token_burn: number = parseFloat(formatBnBalance(
-			resultBurn.toString(),
+			debouncedResultBurn.toString(),
 			{
 				numberAfterComma: 2,
 				withThousandDelimitor: false,
@@ -140,7 +144,7 @@ const TreasuryOverview = () => {
 				setNextBurnUSD(formattedUSD);
 			}
 		});
-	}, [resultBurn]);
+	}, [debouncedResultBurn]);
 
 	return (
 		<>
