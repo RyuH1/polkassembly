@@ -70,9 +70,18 @@ export const GlobalStyle = createGlobalStyle`
             width: 100%;
         }
 
-        @media only screen and (min-width: 768px) and (max-width: 1000px) {
+        @media only screen and (min-width: 768px) and (max-width: 992px) {
+            margin: 1em auto 6em auto;
+            width: 97%;
+        }
+
+        @media only screen and (min-width: 992px) and (max-width: 1000px) {
             margin: 1em 0 6em 1em;
             width: 100%;
+        }
+
+        @media only screen and (min-width: 1000px) and (max-width: 1300px){
+            width: 71.5% !important;
         }
     }
 
@@ -84,7 +93,6 @@ export const GlobalStyle = createGlobalStyle`
 		@media (max-width: 1299px) {
 			padding: 0 2.5rem 0 2.5rem;
 		}
-    }
     }
 
     .ui.container {
