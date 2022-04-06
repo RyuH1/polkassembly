@@ -11,6 +11,7 @@ import CreatePost from 'src/screens/CreatePost';
 import PostDiscussion from 'src/screens/DiscussionPost';
 import Discussions from 'src/screens/Discussions';
 import Home from 'src/screens/Home';
+import Parachains from 'src/screens/Home/Parachains';
 import { PrivacyPolicy, TermsAndConditions, TermsOfWebsite } from 'src/screens/LegalDocuments';
 import LoginForm from 'src/screens/LoginForm';
 import PostMotion from 'src/screens/MotionPost';
@@ -153,6 +154,9 @@ function SwitchRoutes() {
 			</Route>
 			<Route path="/news">
 				<NewsView/>
+			</Route>
+			<Route path="/parachains">
+				<Parachains/>
 			</Route>
 			<Route path="*">
 				<NotFound/>
