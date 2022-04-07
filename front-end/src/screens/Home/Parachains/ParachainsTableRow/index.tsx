@@ -64,7 +64,7 @@ const ParachainsTableRow = function ({
 
 			<Table.Cell>
 				<Popup content={toTitleCase(status)} className='text-capitalize' hoverable size='huge' trigger={
-					status == 'parachain on polkadot' ?
+					status == 'live on polkadot' ?
 						<img src={polkadotLogo} height={32} width={32} alt='Polkadot Logo' /> :
 						<img src={kusamaLogo} height={32} width={32} alt='Kusama Logo' />
 				} />

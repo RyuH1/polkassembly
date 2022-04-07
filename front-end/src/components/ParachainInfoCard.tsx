@@ -2,21 +2,22 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ApiPromise, WsProvider } from '@polkadot/api';
 import { DeriveBalancesAccount } from '@polkadot/api-derive/types';
 import type { Balance } from '@polkadot/types/interfaces';
 import { BN_ZERO, u8aConcat, u8aToHex } from '@polkadot/util';
 import styled from '@xstyled/styled-components';
 import BN from 'bn.js';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Divider, Icon } from 'semantic-ui-react';
 import kusamaLogo from 'src/assets/kusama-logo.gif';
 import auctionIcon from 'src/assets/parachains/auction.png';
 import chainIcon from 'src/assets/parachains/chain.png';
 import crowdloansIcon from 'src/assets/parachains/crowdloans.png';
 import polkadotLogo from 'src/assets/polkadot-logo-small-inverted.png';
-import { ApiContext } from 'src/context/ApiContext';
 import { REACT_APP_SUBSCAN_API_KEY } from 'src/global/apiKeys';
 import { chainProperties } from 'src/global/networkConstants';
+import Loader from 'src/ui-components/Loader';
 import formatBnBalance from 'src/util/formatBnBalance';
 
 interface Props {
@@ -32,7 +33,30 @@ interface Result {
 const EMPTY_U8A_32 = new Uint8Array(32);
 
 const ParachainInfoCard = ({ className, network }: Props) => {
-	const { api, apiReady } = useContext(ApiContext);
+	const [api, setApi] = useState<ApiPromise>();
+	const [apiReady, setApiReady] = useState(false);
+
+	useEffect(() => {
+		const WS_PROVIDER = network == 'polkadot' ? 'wss://rpc.polkadot.io' : 'wss://kusama-rpc.polkadot.io';
+		const provider = new WsProvider(WS_PROVIDER);
+
+		async function initAPI() {
+			const api = await ApiPromise.create({ provider });
+
+			if(api){
+				setApi(api);
+				api.isReady.then(() => {
+					setApiReady(true);
+					console.log('API ready');
+				})
+					.catch((error) => {
+						console.error(error);
+					});
+			}
+		}
+		initAPI();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	const [currentBlock, setCurrentBlock] = useState<BN>(new BN(0));
 	const [treasuryBalance, setTreasuryBalance] = useState<
@@ -123,6 +147,8 @@ const ParachainInfoCard = ({ className, network }: Props) => {
 			}
 		).replaceAll(/\s/g,''));
 
+		console.log('network', network, 'token_available : ', token_available);
+
 		async function fetchAvailableUSDCPrice(token: number) {
 			if (cancel) return;
 			const response = await fetch(
@@ -168,13 +194,13 @@ const ParachainInfoCard = ({ className, network }: Props) => {
 
 	return (
 		<Card className={className}>
+			{!apiReady && <div style={ { background: 'rgba(255, 255, 255, 0.4)', height: '100vh', left: '0', position: 'fixed', top:'0', width: '100vw', zIndex: 500 } } ><Loader text='Waiting to make a connection to the remote endpoint and finishing API initialization.' size="big" /></div>}
 			<Card.Content>
 				<Card.Header className='parachain-card-header'>
 					<img height={33} width={33} src={network=='polkadot' ? polkadotLogo : kusamaLogo} alt="Chain Logo" />
 					<span className='network-name'>{network}</span>
 					<span className="dotDivider"></span>
 
-					{/* TODO: how to fetch KSM treasury from polkadot or vice versa */}
 					<span>
 						{result.value ? (
 							<span>
