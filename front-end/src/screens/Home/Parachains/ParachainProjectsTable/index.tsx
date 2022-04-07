@@ -14,18 +14,26 @@ interface Props {
 }
 
 const ParachainProjectsTable = ({ className, data }: Props) => {
+	const kusamaData: any = data.filter((project: any) => {
+		return project.chain == 'kusama';
+	});
+
+	const polkadotData: any = data.filter((project: any) => {
+		return project.chain == 'polkadot';
+	});
+
 	const panes = [
 		{
 			menuItem: <Menu.Item key='all'>All <Label circular>{data.length}</Label></Menu.Item>,
 			render: () => <AllParachainsTable data={data} />
 		},
 		{
-			menuItem: <Menu.Item key='kusama' className='no-label-item'>Kusama</Menu.Item>,
-			render: () => <div>Kusamsa Test</div>
+			menuItem: <Menu.Item key='kusama'>Kusama <Label circular>{kusamaData.length}</Label></Menu.Item>,
+			render: () => <AllParachainsTable data={kusamaData} />
 		},
 		{
-			menuItem: <Menu.Item key='polkadot' className='no-label-item'>Polkadot</Menu.Item>,
-			render: () => <div>Polkadot Test</div>
+			menuItem: <Menu.Item key='polkadot'>Polkadot <Label circular>{polkadotData.length}</Label></Menu.Item>,
+			render: () => <AllParachainsTable data={polkadotData} />
 		},
 		{
 			menuItem: <Menu.Item className='menu-right no-label-item' key='search'> <Icon name='search' /> </Menu.Item>,

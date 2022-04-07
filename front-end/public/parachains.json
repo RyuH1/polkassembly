@@ -2,6 +2,7 @@
 	{
 		"id": 1,
 		"badges": ["smart contracts"],
+		"chain": "polkadot",
 		"githubURL": "https://github.com/PureStake/moonbeam",
 		"investorsCount": 16,
 		"logoURL": "https://polkassembly.io/images/moonbeam-logo.png",
@@ -17,6 +18,7 @@
 	{
 		"id": 2,
 		"badges": ["defi"],
+		"chain": "polkadot",
 		"githubURL": "https://github.com/AcalaNetwork/Acala",
 		"investorsCount": 32,
 		"logoURL": "https://pbs.twimg.com/profile_images/1379064847439175692/upOKBONH_400x400.jpg",
@@ -32,6 +34,7 @@
 	{
 		"id": 3,
 		"badges": ["Bridge", "Defi", "Smart Contracts"],
+		"chain": "kusama",
 		"githubURL": "https://github.com/bifrost-finance/bifrost",
 		"investorsCount": 24,
 		"logoURL": "https://polkassembly.io/images/bifrost-logo.png",
@@ -47,6 +50,7 @@
 	{
 		"id": 4,
 		"badges": ["Data", "Identity"],
+		"chain": "kusama",
 		"githubURL": "https://github.com/KILTprotocol/mashnet-node",
 		"investorsCount": 3,
 		"logoURL": "https://polkassembly.io/images/kilt-logo.png",
@@ -62,6 +66,7 @@
 	{
 		"id": 5,
 		"badges": ["Smart Contracts"],
+		"chain": "kusama",
 		"githubURL": "https://github.com/AstarNetwork/Astar",
 		"investorsCount": 32,
 		"logoURL": "https://astar.network/images/brand-logo-mark.png",
@@ -77,6 +82,7 @@
 	{
 		"id": 6,
 		"badges": ["Social"],
+		"chain": "kusama",
 		"githubURL": "https://github.com/dappforce/subsocial-node",
 		"investorsCount": 10,
 		"logoURL": "https://static.tildacdn.com/tild3635-6531-4333-b835-623362343835/subsocial-sign.png",
