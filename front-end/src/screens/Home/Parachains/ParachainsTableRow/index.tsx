@@ -35,7 +35,7 @@ const ParachainsTableRow = function ({
 	name,
 	status,
 	token,
-	tokenPriceUSD,
+	// tokenPriceUSD,
 	w3fGrant
 }:ParachainsTableRowProps) {
 
@@ -75,10 +75,11 @@ const ParachainsTableRow = function ({
 					<span>
 						{token}
 					</span>
-					<span className="dotDivider"></span>
+					{/* TODO: Implement tokenPriceUSD */}
+					{/* <span className="dotDivider"></span>
 					<span>
 						${tokenPriceUSD}
-					</span>
+					</span> */}
 				</div>
 			</Table.Cell>
 			<Table.Cell>
@@ -121,7 +122,7 @@ export default styled(ParachainsTableRow)`
 		margin: auto 8px;
 		border-radius: 50%;
 	}
-
+	
 	.project-cell {
 		display: flex;
 		align-items: center;
