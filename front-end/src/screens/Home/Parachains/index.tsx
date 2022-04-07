@@ -3,16 +3,29 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import styled from '@xstyled/styled-components';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card } from 'semantic-ui-react';
 import ParachainInfoCard from 'src/components/ParachainInfoCard';
 import ParachainSearchInfo from 'src/components/ParachainSearchInfo';
+
+import ParachainProjectsTable from './ParachainProjectsTable';
 
 interface Props {
   className?: string
 }
 
 const Parachains = ({ className }: Props) => {
+
+	const [parachainsData, setParachainsData] = useState([]);
+
+	useEffect(() => {
+		fetch('parachains.json')
+			.then((r) => r.json())
+			.then((data) => {
+				setParachainsData(data);
+			});
+	},[]);
+
 	return (
 		<div className={className}>
 			<h1 className='ma-sm-1'>Projects Directory</h1>
@@ -22,6 +35,11 @@ const Parachains = ({ className }: Props) => {
 				<ParachainInfoCard network='polkadot' />
 				<ParachainInfoCard network='kusama' />
 			</Card.Group>
+
+			{parachainsData.length > 0 ? <div>
+				<h2>Projects ({parachainsData.length})</h2>
+				<ParachainProjectsTable />
+			</div> : <h2 style={ { textAlign: 'center' } }> Loading projects, please wait ...</h2>}
 		</div>
 	);
 };
@@ -31,6 +49,13 @@ export default styled(Parachains)`
 		font-size: 48px;
 		font-weight: 500;
 		margin-bottom: 28px !important;
+	}
+
+	h2 {
+		font-size: 30px;
+		color: #454545;
+		margin-top: 48px;
+		margin-bottom: 16px;
 	}
 
 	.ma-sm-1 {
