@@ -126,7 +126,7 @@ export default styled(ParachainsTableRow)`
 	.project-cell {
 		display: flex;
 		align-items: center;
-		min-width: 500px;
+		min-width: 480px;
 		
 		.project-name {
 			margin-left: 16px;

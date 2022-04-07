@@ -37,7 +37,7 @@ const Parachains = ({ className }: Props) => {
 			</Card.Group>
 
 			{parachainsData.length > 0 ? <div>
-				<h2>Projects ({parachainsData.length})</h2>
+				<h2>Projects</h2>
 				<ParachainProjectsTable data={parachainsData} />
 			</div> : <h2 style={ { textAlign: 'center' } }> Loading projects, please wait ...</h2>}
 		</div>

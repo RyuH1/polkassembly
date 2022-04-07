@@ -7,6 +7,7 @@ import React from 'react';
 // import { Link } from 'react-router-dom';
 import { Tab, Table } from 'semantic-ui-react';
 
+// import ParachainsFilterHeader from '../ParachainsFilterHeader';
 import ParachainsTableHeader from '../ParachainsTableHeader';
 import ParachainsTableRow from '../ParachainsTableRow';
 
@@ -18,7 +19,7 @@ interface Props {
 const AllParachainsTable = ({ className, data }:Props) => {
 	return <Tab.Pane loading={!data} className={className}>
 		<Table basic='very' striped unstackable selectable columns={6}>
-			{/* TODO: Add Filter Header */}
+			{/* <ParachainsFilterHeader className={className} data={data} /> */}
 			<ParachainsTableHeader className={className} />
 
 			<Table.Body>

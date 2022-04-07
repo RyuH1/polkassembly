@@ -4,7 +4,7 @@
 
 import styled from '@xstyled/styled-components';
 import React from 'react';
-import { Icon, Label, Menu, Tab } from 'semantic-ui-react';
+import { Label, Menu, Tab } from 'semantic-ui-react';
 
 import AllParachainsTable from '../AllParachainsTable';
 
@@ -34,11 +34,11 @@ const ParachainProjectsTable = ({ className, data }: Props) => {
 		{
 			menuItem: <Menu.Item key='polkadot'>Polkadot <Label circular>{polkadotData.length}</Label></Menu.Item>,
 			render: () => <AllParachainsTable data={polkadotData} />
-		},
-		{
-			menuItem: <Menu.Item className='menu-right no-label-item' key='search'> <Icon name='search' /> </Menu.Item>,
-			render: () => <div>Search Test</div>
 		}
+		// {
+		// menuItem: <Menu.Item className='menu-right no-label-item' key='search'> <Icon name='search' /> </Menu.Item>,
+		// render: () => <div>Search Test</div>
+		// }
 	];
 
 	return (
