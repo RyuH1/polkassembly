@@ -38,7 +38,7 @@ const Parachains = ({ className }: Props) => {
 
 			{parachainsData.length > 0 ? <div>
 				<h2>Projects ({parachainsData.length})</h2>
-				<ParachainProjectsTable />
+				<ParachainProjectsTable data={parachainsData} />
 			</div> : <h2 style={ { textAlign: 'center' } }> Loading projects, please wait ...</h2>}
 		</div>
 	);

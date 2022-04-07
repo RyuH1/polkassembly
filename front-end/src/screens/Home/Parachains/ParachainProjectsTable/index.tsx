@@ -6,15 +6,18 @@ import styled from '@xstyled/styled-components';
 import React from 'react';
 import { Icon, Label, Menu, Tab } from 'semantic-ui-react';
 
+import AllParachainsTable from '../AllParachainsTable';
+
 interface Props {
   className?: string
+	data?: any
 }
 
-const ParachainProjectsTable = ({ className }: Props) => {
+const ParachainProjectsTable = ({ className, data }: Props) => {
 	const panes = [
 		{
-			menuItem: <Menu.Item key='all'>All <Label circular>1</Label></Menu.Item>,
-			render: () => <div>Test All</div>
+			menuItem: <Menu.Item key='all'>All <Label circular>{data.length}</Label></Menu.Item>,
+			render: () => <AllParachainsTable data={data} />
 		},
 		{
 			menuItem: <Menu.Item key='kusama' className='no-label-item'>Kusama</Menu.Item>,

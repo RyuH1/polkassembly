@@ -128,7 +128,7 @@ export default styled(LatestProposalsTable)`
         :not(:first-child){
           span {
             border-left: 1px solid #ddd;
-            padding 0.3em 0 0.3em 1em;
+            padding: 0.3em 0 0.3em 1em;
             margin-left: -1em;
           }
         }
