@@ -29,6 +29,11 @@ const CustomSidebar = ({ className } : { className?: string }): JSX.Element => {
 			icon: <Icon name='newspaper outline' />,
 			link: '/news',
 			name: 'News'
+		},
+		{
+			icon: <Icon name='chain' />,
+			link: '/parachains',
+			name: 'Parachains'
 		}
 	];
 
