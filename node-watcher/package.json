@@ -33,7 +33,7 @@
     "api:bump": "yarn add @polkadot/api @polkadot/dev"
   },
   "dependencies": {
-    "@polkadot/api": "^6.12.1",
+    "@polkadot/api": "^7.15.1",
     "@polkadot/dev": "^0.63.41",
     "@types/bn.js": "^4.11.6",
     "eslint-config-prettier": "^6.6.0",
