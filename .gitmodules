@@ -1,0 +1,3 @@
+[submodule "node-watcher/src/types/automata"]
+	path = node-watcher/src/types/automata
+	url = https://github.com/automata-network/automata-typings.git

@@ -2,6 +2,14 @@
   "exclude": ["**/generated/**/*", "node_modules", "public", ".cache"],
   "include": ["./src"],
   "compilerOptions": {
+    "paths": {
+      // this is the package name we use (in the interface imports, --package for generators)
+      "automata-typings/*": ["src/types/automata/src/*"],
+      // here we replace the @polkadot/api augmentation with our own, generated from chain
+      "@polkadot/api/augment": ["src/types/automata/src/interfaces/augment-api.ts"],
+      // replace the augmented types with our own, as generated from definitions
+      "@polkadot/types/augment": ["src/types/automata/src/interfaces/augment-types.ts"]
+    },
     "baseUrl": ".",
     "declaration": true,
     "downlevelIteration": true,
