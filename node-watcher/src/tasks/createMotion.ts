@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { GenericCall } from '@polkadot/types';
-import { BlockNumber, Hash } from '@polkadot/types/interfaces';
+import { GenericCall, Option } from '@polkadot/types'
+import { BlockNumber, Hash, Proposal } from '@polkadot/types/interfaces'
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
@@ -95,14 +95,14 @@ const createMotion: Task<NomidotMotion[]> = {
           motionRawEvent.Hash
         );
 
-        const motionProposal = motionProposalRaw.unwrapOr(null);
+        const motionProposal = (motionProposalRaw as Option<Proposal>).unwrapOr(null);
 
         if (!motionProposal) {
           l.log(`No motionProposal found for the hash ${motionRawEvent.Hash}`);
           return;
         }
 
-        const proposal = api.createType('Proposal', motionProposal);
+        const proposal = api.createType('Proposal', motionProposal) as unknown as Proposal;
 
         const { meta, method, section } = api.registry.findMetaCall(
           proposal.callIndex

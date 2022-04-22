@@ -4,7 +4,7 @@
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { getSpecTypes } from '@polkadot/types-known';
-import { BlockNumber, Hash } from '@polkadot/types/interfaces';
+import { BlockNumber, EventRecord, Hash, SessionIndex } from '@polkadot/types/interfaces'
 import { logger } from '@polkadot/util';
 
 import { prisma } from './generated/prisma-client';
@@ -147,8 +147,8 @@ export async function nodeWatcher(): Promise<unknown> {
           ]);
 
           const cached: Cached = {
-            events,
-            sessionIndex,
+            events: events as unknown as EventRecord[],
+            sessionIndex: sessionIndex as unknown as SessionIndex,
           };
 
           // execute watcher tasks

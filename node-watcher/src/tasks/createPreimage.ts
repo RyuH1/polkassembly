@@ -47,7 +47,7 @@ const constructProposal = function(
   let proposal: Proposal | undefined;
 
   try {
-    proposal = api.registry.createType('Proposal', bytes.toU8a(true));
+    proposal = api.registry.createType('Proposal', bytes.toU8a(true)) as (Proposal | undefined);
   } catch (error) {
     l.log(error);
   }
@@ -122,7 +122,7 @@ const createPreimage: Task<NomidotPreimage[]> = {
           preimageArguments.hash
         );
 
-        const preimage = preimageRaw.unwrapOr(null);
+        const preimage = (preimageRaw as Option<PreimageStatus>).unwrapOr(null);
 
         if (!preimage) {
           l.log(
@@ -138,7 +138,7 @@ const createPreimage: Task<NomidotPreimage[]> = {
           return null;
         }
 
-        if (isCurrentPreimage(api, preimageRaw)) {
+        if (isCurrentPreimage(api, preimageRaw as Option<PreimageStatus>)) {
           const { data } = preimage.asAvailable;
 
           proposal = constructProposal(api, data);

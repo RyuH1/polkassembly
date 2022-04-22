@@ -9,6 +9,7 @@ import {
   Hash,
   PropIndex,
 } from '@polkadot/types/interfaces';
+import { ITuple } from '@polkadot/types/types'
 import { logger } from '@polkadot/util';
 
 import { prisma } from '../generated/prisma-client';
@@ -87,7 +88,7 @@ const createProposal: Task<NomidotProposal[]> = {
 
         const publicProps = await api.query.democracy.publicProps.at(blockHash);
 
-        const [, preimageHash, author] = publicProps.filter(
+        const [, preimageHash, author] = (publicProps as unknown as ITuple<[PropIndex, Hash, AccountId]>[]).filter(
           ([idNumber]: [PropIndex, Hash, AccountId]) =>
             idNumber.toNumber() === proposalArguments.proposalId
         )[0];
