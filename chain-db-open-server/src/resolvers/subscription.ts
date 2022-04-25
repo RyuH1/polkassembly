@@ -27,6 +27,8 @@ import {
   TreasurySpendProposalSubscriptionPayloadSubscription,
   TreasurySpendProposalSubscriptionWhereInput,
   ValidatorSubscription,
+  DAOProjectSubscriptionPayloadSubscription,
+  DAOProjectSubscriptionWhereInput,
 } from '../generated/prisma-client';
 import { Context, Selectors } from '../types';
 
@@ -311,6 +313,19 @@ const techCommitteeProposal = {
   },
 };
 
+const daoProject = {
+  subscribe: (
+    parent: any,
+    { where }: { where: DAOProjectSubscriptionWhereInput },
+    context: Context
+  ): DAOProjectSubscriptionPayloadSubscription => {
+    return context.prisma.$subscribe.dAOProject(where);
+  },
+  resolve: (payload: any) => {
+    return payload;
+  },
+};
+
 export const Subscription = {
   blockNumber,
   bounty,
@@ -329,4 +344,5 @@ export const Subscription = {
   tip,
   treasurySpendProposal,
   referendum,
+  daoProject,
 };

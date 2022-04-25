@@ -291,6 +291,14 @@ const resolvers = {
       return prisma.referendumStatus({ id: parent.id }).blockNumber();
     },
   },
+  DAOProject: {
+    id(parent: any) {
+      return prisma.dAOProject({ id: parent.id }).id();
+    },
+    projectId(parent: any) {
+      return prisma.dAOProject({ id: parent.id }).projectId();
+    }
+  },
 };
 
 const server = new GraphQLServer({
