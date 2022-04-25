@@ -1,6 +1,6 @@
 FROM docker.io/node:14
 
-# ENV PRISMA_ENDPOINT http://prisma:4466
+ENV PRISMA_ENDPOINT http://prisma:4466
 
 WORKDIR /node_watcher
 
@@ -14,5 +14,5 @@ RUN yarn
 COPY ./ ./
 
 # Create the database schema
-CMD ["yarn", "prisma", "deploy"]
+CMD ["yarn", "prisma1", "deploy"]
 

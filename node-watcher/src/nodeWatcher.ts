@@ -12,6 +12,7 @@ import { nomidotTasks } from './tasks';
 import { Cached } from './tasks/types';
 import getEnvVars from './util/getEnvVars';
 import {waitFinalized, reachedLimitLag, waitLagLimit} from './util/wait';
+import * as definitions from './types/automata/src/interfaces/definitions'
 
 const envVars = getEnvVars();
 const ARCHIVE_NODE_ENDPOINT = envVars.ARCHIVE_NODE_ENDPOINT;
@@ -21,13 +22,18 @@ const START_FROM = envVars.START_FROM;
 
 const l = logger('node-watcher');
 
+const DAO_PORTAL_TYPES = Object.values(definitions).reduce(
+  (res, { types }): object => ({ ...res, ...types }),
+  {}
+)
+
 export async function nodeWatcher(): Promise<unknown> {
   return new Promise((_, reject) => {
     let keepLooping = true;
 
     const provider = new WsProvider(ARCHIVE_NODE_ENDPOINT);
 
-    ApiPromise.create({ provider })
+    ApiPromise.create({ provider: provider, types: DAO_PORTAL_TYPES })
       .then(async api => {
         api.once('error', e => {
           keepLooping = false;

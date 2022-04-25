@@ -1,7 +1,5 @@
 version: '3.7'
 services:
-  main:
-    build: ./
   postgres:
     image: postgres:12.1
     restart: always
@@ -29,5 +27,10 @@ services:
             rawAccess: true
             port: 5432
             migrations: true
+  main:
+    build: ./
+    depends_on:
+    - "prisma"
+    restart: on-failure
 volumes:
   postgres: ~
