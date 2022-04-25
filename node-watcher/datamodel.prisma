@@ -285,3 +285,8 @@ type TechCommitteeProposalStatus {
   status: String!
   uniqueStatus: String! @unique
 }
+
+type DAOProject {
+  id: ID! @id
+  projectId: Int! @unique
+}
