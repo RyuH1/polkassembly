@@ -61,7 +61,8 @@
 		"tmp": "^0.1.0",
 		"typescript": "^3.9.3",
 		"uuidv4": "^6.1.0",
-		"validator": "^12.2.0"
+		"validator": "^12.2.0",
+		"web3": "^1.7.3"
 	},
 	"devDependencies": {
 		"@polkadot/types": "4.1.1",

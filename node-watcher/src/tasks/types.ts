@@ -125,7 +125,8 @@ export type Nomidot =
   | NomidotBounty[]
   | NomidotBountyStatusUpdate[]
   | NomidotTechCommitteeProposal[]
-  | NomidotTechCommitteeProposalStatusUpdate[];
+  | NomidotTechCommitteeProposalStatusUpdate[]
+  | NomidotDAOProject[];
 
 export type NomidotTask = Task<Nomidot>;
 
@@ -314,4 +315,16 @@ export interface NomidotBountyStatusUpdate {
   status: string;
   curator?: string;
   beneficiary?: string;
+}
+
+export interface NomidotDAOProject extends NomidotDAOProjectEvent {
+
+}
+
+export interface NomidotDAOProjectEvent {
+  projectId: number;
+}
+
+export interface NomidotDAOProjectRawEvent {
+  ProjectId?: number;
 }

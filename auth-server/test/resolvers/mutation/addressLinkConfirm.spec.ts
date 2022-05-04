@@ -41,8 +41,8 @@ describe('addressLinkConfirm mutation', () => {
 			.del();
 	});
 
-	it('should be able to confirm address link on Kusama', async () => {
-		const network = NetworkEnum.KUSAMA;
+	it('should be able to confirm address link on Substrate', async () => {
+		const network = NetworkEnum.SUBSTRATE;
 		const address = 'HNZata7iMYWmk5RvZRTiAsSDhV8366zq2YGb3tLH5Upf74F'; //Alice
 		const signMessage = 'da194645-4daf-43b6-b023-6c6ce99ee709';
 		const signature = '0x048ffa02dd58557ab7f7ffb316ac75fa942d2bdb83f4480a6698a1f39d6fa1184dd85d95480bfab59f516de578b102a2b01b81ca0e69134f90e0cd08ada7ca88';
@@ -72,11 +72,11 @@ describe('addressLinkConfirm mutation', () => {
 		dbAddressId = dbAddress?.id;
 	});
 
-	it('should be able to confirm address link on Polkadot', async () => {
-		const network = NetworkEnum.POLKADOT;
-		const address = '15oF4uVJwmo4TdGW7VfQxNLavjCXviqxT9S1MgbjMNHr6Sp5'; //Alice
+	it('should be able to confirm address link on Ethereum', async () => {
+		const network = NetworkEnum.ETHEREUM;
+		const address = '0x2d6eBb160A14eed95c0Cb8ede5C92EA9E182a938';
 		const signMessage = 'da194645-4daf-43b6-b023-6c6ce99ee709';
-		const signature = '0xd428aecda9a1e1767d017e55e44b8dc5231ce765309abb4cf74475f28bddf82e2397360833489430990ce7dc2cfe072d33624235e4c1e617f4fca473c50bc689';
+		const signature = '0x417ea879ecc9131601417b04f0a3502cc8cb409d539d749f1789602aa8269a155492cc865b1c481452530ae804934519f0b187ee75f8b2c48eb3ca4b822174531b';
 
 		const linkStartRes = await addressLinkStart(undefined, { network, address }, fakectx);
 
@@ -103,8 +103,8 @@ describe('addressLinkConfirm mutation', () => {
 		dbAddressId = dbAddress?.id;
 	});
 
-	it('should not be able to confirm address link with fake signature on Kusama', async () => {
-		const network = NetworkEnum.KUSAMA;
+	it('should not be able to confirm address link with fake signature on Substrate', async () => {
+		const network = NetworkEnum.SUBSTRATE;
 		const address = 'FoQJpPyadYccjavVdTWxpxU7rUEaYhfLCPwXgkfD6Zat9QP'; // Bob
 		const signMessage = 'da194645-4daf-43b6-b023-6c6ce99ee709';
 		const fakeSignature = '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000';
@@ -128,9 +128,9 @@ describe('addressLinkConfirm mutation', () => {
 		}
 	});
 
-	it('should not be able to confirm address link with fake signature on Polkadot', async () => {
-		const network = NetworkEnum.POLKADOT;
-		const address = '14E5nqKAp3oAJcmzgZhUD2RcptBeUBScxKHgJKU4HPNcKVf3'; // Bob
+	it('should not be able to confirm address link with fake signature on Ethereum', async () => {
+		const network = NetworkEnum.ETHEREUM;
+		const address = '0x2d6eBb160A14eed95c0Cb8ede5C92EA9E182a938'; // Bob
 		const signMessage = 'da194645-4daf-43b6-b023-6c6ce99ee709';
 		const fakeSignature = '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000';
 

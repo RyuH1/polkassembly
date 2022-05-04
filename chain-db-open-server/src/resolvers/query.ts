@@ -671,7 +671,7 @@ const Query = {
   ) {
     return prisma.techCommitteeProposalStatus(TechCommitteeProposalStatusWhereInput);
   },
-  daoProjects(
+  dAOProjects(
     _parent: any,
     { where, orderBy, skip, after, before, first, last }: Selectors,
     { prisma }: Context
@@ -686,7 +686,7 @@ const Query = {
       last,
     });
   },
-  daoProject(
+  dAOProject(
     _parent: any,
     { DAOProjectWhereUniqueInput }: Selectors,
     { prisma }: Context

@@ -23,8 +23,8 @@ export default async (parent: void, { username }: ProfileArgs): Promise<PublicUs
 
 	return {
 		id: user.id,
-		kusama_default_address: networkUserAddressInfo.kusama.default,
-		polkadot_default_address: networkUserAddressInfo.polkadot.default,
+		substrate_default_address: networkUserAddressInfo.substrate.default,
+		ethereum_default_address: networkUserAddressInfo.ethereum.default,
 		username: user.username
 	};
 };

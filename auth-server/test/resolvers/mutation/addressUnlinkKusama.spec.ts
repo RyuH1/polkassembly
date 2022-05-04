@@ -35,7 +35,7 @@ describe('addressUnlink mutation', () => {
 			.query()
 			.allowInsert('[network, address, user_id, public_key, sign_message, verified]')
 			.insert({
-				network: NetworkEnum.KUSAMA,
+				network: NetworkEnum.SUBSTRATE,
 				address,
 				user_id: signupUserId,
 				public_key: publicKey,

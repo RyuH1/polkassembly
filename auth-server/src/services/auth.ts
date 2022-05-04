@@ -20,6 +20,7 @@ import User from '../model/User';
 import { redisDel, redisGet, redisSetex } from '../redis';
 import { AuthObjectType, HashedPassword, JWTPayploadType, Network, NotificationPreferencesType, Role } from '../types';
 import getMultisigAddress from '../utils/getMultisigAddress';
+import getNetworkFromAddress from '../utils/getNetworkFromAddress';
 import getNetworkUserAddressInfoFromUserId from '../utils/getNetworkUserAddressInfoFromUserId';
 import getNotificationPreferencesFromUserId from '../utils/getNotificationPreferencesFromUserId';
 import getPublicKey from '../utils/getPublicKey';
@@ -263,7 +264,9 @@ export default class AuthService {
 			throw new ForbiddenError(messages.ADDRESS_LOGIN_SIGN_MESSAGE_EXPIRED);
 		}
 
-		const isValidSr = verifySignature(signMessage, address, signature);
+		const network = await getNetworkFromAddress(address);
+
+		const isValidSr = verifySignature(network, signMessage, address, signature);
 
 		if (!isValidSr) {
 			throw new ForbiddenError(messages.ADDRESS_LOGIN_INVALID_SIGNATURE);
@@ -318,7 +321,7 @@ export default class AuthService {
 			throw new ForbiddenError(messages.ADDRESS_SIGNUP_SIGN_MESSAGE_EXPIRED);
 		}
 
-		const isValidSr = verifySignature(signMessage, address, signature);
+		const isValidSr = verifySignature(network, signMessage, address, signature);
 
 		if (!isValidSr) {
 			throw new ForbiddenError(messages.ADDRESS_SIGNUP_INVALID_SIGNATURE);
@@ -513,7 +516,7 @@ export default class AuthService {
 			throw new ForbiddenError(messages.ADDRESS_USER_NOT_MATCHING);
 		}
 
-		const isValidSr = verifySignature(dbAddress.sign_message, dbAddress.address, signature);
+		const isValidSr = verifySignature(dbAddress.network, dbAddress.sign_message, dbAddress.address, signature);
 
 		if (!isValidSr) {
 			throw new ForbiddenError(messages.ADDRESS_LINKING_FAILED);
@@ -590,7 +593,7 @@ export default class AuthService {
 			throw new ForbiddenError(messages.MULTISIG_NOT_ALLOWED);
 		}
 
-		const isValidSr = verifySignature(signMessage, signatory, signature);
+		const isValidSr = verifySignature(network, signMessage, signatory, signature);
 
 		if (!isValidSr) {
 			throw new ForbiddenError(messages.ADDRESS_LINKING_FAILED);
@@ -709,7 +712,9 @@ export default class AuthService {
 			throw new ForbiddenError(messages.SET_CREDENTIALS_SIGN_MESSAGE_EXPIRED);
 		}
 
-		const isValidSr = verifySignature(signMessage, address, signature);
+		const network = await getNetworkFromAddress(address);
+
+		const isValidSr = verifySignature(network, signMessage, address, signature);
 
 		if (!isValidSr) {
 			throw new ForbiddenError(messages.SET_CREDENTIALS_INVALID_SIGNATURE);
@@ -972,10 +977,10 @@ export default class AuthService {
 			'https://hasura.io/jwt/claims': {
 				'x-hasura-allowed-roles': allowedRoles,
 				'x-hasura-default-role': currentRole,
-				'x-hasura-kusama': `{${networkUserAddressInfo.kusama.addresses}}`,
-				'x-hasura-kusama-default': networkUserAddressInfo.kusama.default || '',
-				'x-hasura-polkadot': `{${networkUserAddressInfo.polkadot.addresses}}`,
-				'x-hasura-polkadot-default': networkUserAddressInfo.polkadot.default || '',
+				'x-hasura-substrate': `{${networkUserAddressInfo.substrate.addresses}}`,
+				'x-hasura-substrate-default': networkUserAddressInfo.substrate.default || '',
+				'x-hasura-ethereum': `{${networkUserAddressInfo.ethereum.addresses}}`,
+				'x-hasura-ethereum-default': networkUserAddressInfo.ethereum.default || '',
 				'x-hasura-user-email': email || '',
 				'x-hasura-user-id': `${id}`
 			},
@@ -1033,7 +1038,7 @@ export default class AuthService {
 
 		const signContent = `<Bytes>network:${network}::address:${address}::title:${title}::content:${content}::challenge:${challenge}</Bytes>`;
 
-		const isValidSr = verifySignature(signContent, address, signature);
+		const isValidSr = verifySignature(network, signContent, address, signature);
 
 		if (!isValidSr) {
 			throw new ForbiddenError(messages.POST_CREATE_INVALID_SIGNATURE);
@@ -1134,7 +1139,7 @@ export default class AuthService {
 
 		const signContent = `<Bytes>network:${network}::address:${address}::title:${title}::content:${content}::challenge:${challenge}</Bytes>`;
 
-		const isValidSr = verifySignature(signContent, address, signature);
+		const isValidSr = verifySignature(network, signContent, address, signature);
 
 		if (!isValidSr) {
 			throw new ForbiddenError(messages.POST_EDIT_INVALID_SIGNATURE);

@@ -201,6 +201,16 @@
   remote_relationships:
   - definition:
       remote_field:
+        bounties:
+          arguments:
+            where:
+              bountyId: $onchain_bounty_id
+      hasura_fields:
+      - onchain_bounty_id
+      remote_schema: chain-db
+    name: onchain_bounty
+  - definition:
+      remote_field:
         motions:
           arguments:
             where:
@@ -231,14 +241,14 @@
     name: onchain_referendum
   - definition:
       remote_field:
-        treasurySpendProposals:
+        techCommitteeProposals:
           arguments:
             where:
-              treasuryProposalId: $onchain_treasury_proposal_id
+              proposalId: $onchain_tech_committee_proposal_id
       hasura_fields:
-      - onchain_treasury_proposal_id
+      - onchain_tech_committee_proposal_id
       remote_schema: chain-db
-    name: onchain_treasury_spend_proposal
+    name: onchain_tech_committee_proposal
   - definition:
       remote_field:
         tips:
@@ -251,24 +261,14 @@
     name: onchain_tip
   - definition:
       remote_field:
-        bounties:
+        treasurySpendProposals:
           arguments:
             where:
-              bountyId: $onchain_bounty_id
+              treasuryProposalId: $onchain_treasury_proposal_id
       hasura_fields:
-      - onchain_bounty_id
+      - onchain_treasury_proposal_id
       remote_schema: chain-db
-    name: onchain_bounty
-  - definition:
-      remote_field:
-        techCommitteeProposals:
-          arguments:
-            where:
-              proposalId: $onchain_tech_committee_proposal_id
-      hasura_fields:
-      - onchain_tech_committee_proposal_id
-      remote_schema: chain-db
-    name: onchain_tech_committee_proposal
+    name: onchain_treasury_spend_proposal
   insert_permissions:
   - role: proposal_bot
     permission:
@@ -783,6 +783,7 @@
         remote_table:
           schema: public
           name: post_last_update
+        insertion_order: null
         column_mapping:
           id: post_id
   - name: onchain_link
@@ -791,6 +792,7 @@
         remote_table:
           schema: public
           name: onchain_links
+        insertion_order: null
         column_mapping:
           id: post_id
   - name: topic
@@ -838,6 +840,16 @@
       - author_id
       remote_schema: auth
     name: author
+  - definition:
+      remote_field:
+        dAOProjects:
+          arguments:
+            where:
+              projectId: $onchain_dao_project_id
+      hasura_fields:
+      - onchain_dao_project_id
+      remote_schema: chain-db
+    name: onchain_dao_project
   insert_permissions:
   - role: proposal_bot
     permission:
@@ -847,6 +859,7 @@
       columns:
       - author_id
       - content
+      - onchain_dao_project_id
       - title
       - topic_id
       - type_id
@@ -861,6 +874,7 @@
       columns:
       - author_id
       - content
+      - onchain_dao_project_id
       - title
       - topic_id
       - type_id
@@ -872,6 +886,7 @@
       - content
       - created_at
       - id
+      - onchain_dao_project_id
       - title
       - topic_id
       - type_id
@@ -885,6 +900,7 @@
       - content
       - created_at
       - id
+      - onchain_dao_project_id
       - title
       - topic_id
       - type_id
@@ -898,6 +914,7 @@
       - content
       - created_at
       - id
+      - onchain_dao_project_id
       - title
       - topic_id
       - type_id

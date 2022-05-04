@@ -40,9 +40,9 @@ describe('addressLinkStart mutation on Polkadot', () => {
 			.del();
 	});
 
-	it('should be able to start linking address on Polkadot', async () => {
-		const network = NetworkEnum.POLKADOT;
-		const address = '14Gjs1TD93gnwEBfDMHoCgsuf1s2TVKUP6Z1qKmAZnZ8cW5q'; // Charlie
+	it('should be able to start linking address on Ethereum', async () => {
+		const network = NetworkEnum.ETHEREUM;
+		const address = '0x2d6eBb160A14eed95c0Cb8ede5C92EA9E182a938';
 		const res = await addressLinkStart(undefined, { network, address }, fakectx);
 
 		const dbAddress = await Address
@@ -62,9 +62,9 @@ describe('addressLinkStart mutation on Polkadot', () => {
 		dbAddressId = dbAddress?.id;
 	});
 
-	it('should not be able to start linking address if it already exists in db on Polkadot', async () => {
-		const network = NetworkEnum.POLKADOT;
-		const address = '14E5nqKAp3oAJcmzgZhUD2RcptBeUBScxKHgJKU4HPNcKVf3'; // Bob
+	it('should not be able to start linking address if it already exists in db on Ethereum', async () => {
+		const network = NetworkEnum.ETHEREUM;
+		const address = '0xe8400d385Ca2671895C13F8bf5D324c687F20282';
 		const dbAddress = await Address
 			.query()
 			.allowInsert('[network, address, user_id, sign_message, verified]')
@@ -90,9 +90,9 @@ describe('addressLinkStart mutation on Polkadot', () => {
 			.del();
 	});
 
-	it('should not be able to start linking address with wrong jwt on Polkadot', async () => {
-		const network = NetworkEnum.POLKADOT;
-		const address = '15oF4uVJwmo4TdGW7VfQxNLavjCXviqxT9S1MgbjMNHr6Sp5'; // Alice
+	it('should not be able to start linking address with wrong jwt on Ethereum', async () => {
+		const network = NetworkEnum.ETHEREUM;
+		const address = '0x1BD169d4f5C7Cb132043F9456f1A3b7889c44eDa'; // Alice
 		fakectx.req.headers.authorization = 'Bearer wrong';
 		try {
 			await addressLinkStart(undefined, { network, address }, fakectx);

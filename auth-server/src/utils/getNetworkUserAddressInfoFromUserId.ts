@@ -11,28 +11,28 @@ import getAllAddressesFromUserId from './getAllAddressesFromUserId';
 export default async (userId: number): Promise<NetworkUserAddressInfo> => {
 	const allAddresses = await getAllAddressesFromUserId(userId);
 
-	const kusamaAddressses: string[] = [];
-	const polkadotAddressses: string[] = [];
+	const substrateAddressses: string[] = [];
+	const ethereumAddressses: string[] = [];
 
-	let kusamaDefault = '';
-	let polkadotDefault = '';
+	let substrateDefault = '';
+	let ethereumDefault = '';
 
 	allAddresses.forEach(addressInfo => {
 		switch (addressInfo.network) {
-		case NetworkEnum.KUSAMA:
+		case NetworkEnum.SUBSTRATE:
 			if (addressInfo.verified) {
-				kusamaAddressses.push(addressInfo.address);
+				substrateAddressses.push(addressInfo.address);
 				if (addressInfo.default) {
-					kusamaDefault = addressInfo.address;
+					substrateDefault = addressInfo.address;
 				}
 			}
 			break;
 
-		case NetworkEnum.POLKADOT:
+		case NetworkEnum.ETHEREUM:
 			if (addressInfo.verified) {
-				polkadotAddressses.push(addressInfo.address);
+				ethereumAddressses.push(addressInfo.address);
 				if (addressInfo.default) {
-					polkadotDefault = addressInfo.address;
+					ethereumDefault = addressInfo.address;
 				}
 			}
 			break;
@@ -42,13 +42,13 @@ export default async (userId: number): Promise<NetworkUserAddressInfo> => {
 	});
 
 	const result = {
-		[NetworkEnum.KUSAMA]: {
-			addresses: kusamaAddressses,
-			default: kusamaDefault
+		[NetworkEnum.SUBSTRATE]: {
+			addresses: substrateAddressses,
+			default: substrateDefault
 		},
-		[NetworkEnum.POLKADOT]: {
-			addresses: polkadotAddressses,
-			default: polkadotDefault
+		[NetworkEnum.ETHEREUM]: {
+			addresses: ethereumAddressses,
+			default: ethereumDefault
 		}
 	} as unknown as NetworkUserAddressInfo;
 

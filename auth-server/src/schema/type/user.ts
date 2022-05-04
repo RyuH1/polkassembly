@@ -5,8 +5,8 @@
 export default `
 	type User {
 		id: Int
-		kusama_default_address: String
-		polkadot_default_address: String
+		substrate_default_address: String
+		ethereum_default_address: String
 		email: String
 		email_verified: Boolean
 		username: String

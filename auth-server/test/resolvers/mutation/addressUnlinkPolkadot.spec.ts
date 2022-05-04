@@ -28,14 +28,14 @@ describe('addressUnlink mutation', () => {
 		fakectx = result.ctx;
 		signupUserId = result.userId;
 
-		const address = '15oF4uVJwmo4TdGW7VfQxNLavjCXviqxT9S1MgbjMNHr6Sp5'; // Alice
+		const address = '0x2d6eBb160A14eed95c0Cb8ede5C92EA9E182a938'; // Alice
 		const publicKey = getPublicKey(address);
 
 		dbAddress = await Address
 			.query()
 			.allowInsert('[network, address, user_id, public_key, sign_message, verified]')
 			.insert({
-				network: NetworkEnum.POLKADOT,
+				network: NetworkEnum.ETHEREUM,
 				address,
 				user_id: signupUserId,
 				public_key: publicKey,
@@ -53,7 +53,7 @@ describe('addressUnlink mutation', () => {
 	});
 
 	it('should not be able to unlink an unknown address', async () => {
-		const wrongAddress = 'aaaata7iMYWmk5RvZRTiAsSDhV8366zq2YGb3tLH5Upaaaa';
+		const wrongAddress = '0x0d6eBb160A14eed95c0Cb8ede5C92EA9E182a938';
 
 		try {
 			await addressUnlink(undefined, { address: wrongAddress }, fakectx);

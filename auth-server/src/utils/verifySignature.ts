@@ -6,8 +6,20 @@ import { signatureVerify } from '@polkadot/util-crypto';
 
 import getPublicKey from './getPublicKey';
 
-export default (message: string, address: string, signature: string): boolean => {
-	const publicKey = getPublicKey(address);
+import { NetworkEnum, Network } from '../types';
 
-	return signatureVerify(message, signature, publicKey).isValid;
+var Web3 = require('web3')
+var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
+
+export default (network: Network, message: string, address: string, signature: string): boolean => {
+	switch (network) {
+		case NetworkEnum.SUBSTRATE:
+			const publicKey = getPublicKey(address);
+			return signatureVerify(message, signature, publicKey).isValid;
+		case NetworkEnum.ETHEREUM:
+			return web3.eth.accounts.recover(message, signature) == address;
+		default:
+			break;
+	}
+	return false;
 };

@@ -5,7 +5,7 @@
 import { ForbiddenError } from 'apollo-server';
 
 import About from '../../model/About';
-import { ChangeAboutArgs, MessageType } from '../../types';
+import { ChangeAboutArgs, MessageType, Network } from '../../types';
 import messages from '../../utils/messages';
 import verifySignature from '../../utils/verifySignature';
 
@@ -19,7 +19,7 @@ export default async (parent: void, {
 }: ChangeAboutArgs): Promise<MessageType> => {
 	const signMessage = `<Bytes>about::network:${network}|address:${address}|title:${title}|description:${description}|image:${image}</Bytes>`;
 
-	const isValidSr = verifySignature(signMessage, address, signature);
+	const isValidSr = verifySignature(network as Network, signMessage, address, signature);
 
 	if (!isValidSr) {
 		throw new ForbiddenError(messages.ABOUT_INVALID_SIGNATURE);

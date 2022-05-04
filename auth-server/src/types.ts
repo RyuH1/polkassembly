@@ -52,10 +52,10 @@ export interface HasuraClaimPayload {
     'x-hasura-default-role': Role;
     'x-hasura-user-email': string;
     'x-hasura-user-id': string;
-    'x-hasura-kusama': string;
-    'x-hasura-kusama-default': string;
-    'x-hasura-polkadot': string;
-    'x-hasura-polkadot-default': string;
+    'x-hasura-substrate': string;
+    'x-hasura-substrate-default': string;
+    'x-hasura-ethereum': string;
+    'x-hasura-ethereum-default': string;
 }
 
 export interface JWTPayploadType {
@@ -82,8 +82,8 @@ export interface ChangeResponseType extends MessageType, TokenType {}
 
 export interface PublicUser {
     id: number;
-    kusama_default_address?: string;
-    polkadot_default_address?: string;
+    substrate_default_address?: string;
+    ethereum_default_address?: string;
     username: string;
 }
 
@@ -270,8 +270,8 @@ export enum PostTypeEnum {
 export type PostType = PostTypeEnum;
 
 export enum NetworkEnum {
-    KUSAMA = 'kusama',
-    POLKADOT = 'polkadot'
+    SUBSTRATE = 'substrate',
+    ETHEREUM = 'ethereum'
 }
 
 export type Network = NetworkEnum;

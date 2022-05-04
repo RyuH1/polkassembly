@@ -313,7 +313,7 @@ const techCommitteeProposal = {
   },
 };
 
-const daoProject = {
+const dAOProject = {
   subscribe: (
     parent: any,
     { where }: { where: DAOProjectSubscriptionWhereInput },
@@ -344,5 +344,5 @@ export const Subscription = {
   tip,
   treasurySpendProposal,
   referendum,
-  daoProject,
+  dAOProject,
 };

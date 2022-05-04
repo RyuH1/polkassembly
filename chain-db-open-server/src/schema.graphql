@@ -101,9 +101,9 @@ type Query {
   validator(where: ValidatorWhereUniqueInput!): Validator
   validators(where: ValidatorWhereInput, orderBy: ValidatorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Validator]!
   validatorsConnection(where: ValidatorWhereInput, orderBy: ValidatorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ValidatorConnection!
-  daoProject(where: DAOProjectWhereUniqueInput!): DAOProject
-  daoProjects(where: DAOProjectWhereInput, orderBy: DAOProjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DAOProject]!
-  daoProjectsConnection(where: DAOProjectWhereInput, orderBy: DAOProjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DAOProjectConnection!
+  dAOProject(where: DAOProjectWhereUniqueInput!): DAOProject
+  dAOProjects(where: DAOProjectWhereInput, orderBy: DAOProjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DAOProject]!
+  dAOProjectsConnection(where: DAOProjectWhereInput, orderBy: DAOProjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DAOProjectConnection!
   node(id: ID!): Node
 }
 
@@ -141,5 +141,5 @@ type Subscription {
   treasurySpendProposal(where: TreasurySpendProposalSubscriptionWhereInput): TreasurySpendProposalSubscriptionPayload
   treasuryStatus(where: TreasuryStatusSubscriptionWhereInput): TreasuryStatusSubscriptionPayload
   validator(where: ValidatorSubscriptionWhereInput): ValidatorSubscriptionPayload
-  daoProject(where: DAOProjectSubscriptionWhereInput): DAOProjectSubscriptionPayload
+  dAOProject(where: DAOProjectSubscriptionWhereInput): DAOProjectSubscriptionPayload
 }
